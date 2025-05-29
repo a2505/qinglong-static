@@ -92,13 +92,14 @@ let NotificationService = class NotificationService {
     async gotify() {
         const { gotifyUrl, gotifyToken, gotifyPriority = 1 } = this.params;
         try {
-            const match = this.title.match(/^P(\d)$/);
+            const regex = /P(\d+)/;
+            const match = title.match(regex);
             let priority = gotifyPriority;
             if (match) {
                 const digit = match[1];
                 priority = Number(digit);
             }
-            const res = await http_1.httpClient.post(`${gotifyUrl}/message?token=${gotifyToken}`, Object.assign(Object.assign({}, this.gotOption), { body: `title=${encodeURIComponent(this.title+'[P]')}&message=${encodeURIComponent(this.content)}&priority=${priority}`, headers: {
+            const res = await http_1.httpClient.post(`${gotifyUrl}/message?token=${gotifyToken}`, Object.assign(Object.assign({}, this.gotOption), { body: `title=${encodeURIComponent(this.title.replace(regex))}&message=${encodeURIComponent(this.content)}&priority=${priority}`, headers: {
                     'Content-Type': 'application/x-www-form-urlencoded',
                 } }));
             if (typeof res.id === 'number') {
