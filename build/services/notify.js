@@ -93,7 +93,7 @@ let NotificationService = class NotificationService {
         const { gotifyUrl, gotifyToken, gotifyPriority = 1 } = this.params;
         try {
             const regex = /P(\d+)/;
-            const match = title.match(regex);
+            const match = this.title.match(regex);
             let priority = gotifyPriority;
             if (match) {
                 const digit = match[1];
